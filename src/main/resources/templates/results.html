@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Time</title>
+</head>
+<body>
+<div style="border:15px solid skyblue;border-radius: 20px;padding: 50px; margin:0 auto; max-width: 400px;color:deepskyblue;">
+
+    <h1>Zone:</h1>
+    <h2 th:text="${zoneName}"></h2><br>
+    <h1>Time:</h1>
+    <h2 th:text="${zoneValue}"></h2>
+
+<br>
+    <input onclick='javascript:window.history.back()' value='Back to the list' type='button' />
+
+
+
+
+</div>
+
+
+</body>
+</html>

@@ -11,41 +11,18 @@ import java.util.*;
 
 @Repository
 public class TimeZoneDao {
-    /*
+
     Set<String> allZoneIds = ZoneId.getAvailableZoneIds();
     List<String> zoneList = new ArrayList<>(allZoneIds);
 
-    public List<String> getZoneList() {
+    @ModelAttribute("zoneChoose")
+    public List getZone(){
         Collections.sort(zoneList);
         return zoneList;
     }
-    */
-    Set<String> allZoneIds = ZoneId.getAvailableZoneIds();
-    List<String> zoneList = new ArrayList<>(allZoneIds);
-    Map<Object, LocalTime> zoneTime = new TreeMap<>();
 
-    @ModelAttribute("zoneTimes")
-    public Map<Object, LocalTime> getZoneTime() {
-        Collections.sort(zoneList);
-        Iterator iterator = zoneList.iterator();
-
-        while (iterator.hasNext()) {
-
-            LocalTime now = LocalTime.parse(LocalTime.now(ZoneId.of(iterator.next().toString())).format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-            zoneTime.put(iterator.next(), now);
-
-        }
-        return zoneTime;
-    }
-
-
-@ModelAttribute("zoneTimeValues")
-    public String getZoneTimeValue(){
-        String zoneTimeValue = "";
-        Gson gson = new Gson();
-        zoneTimeValue = gson.toJson(zoneTime);
-        System.out.println("zoneTimeValue" + zoneTimeValue);
-        return zoneTimeValue;
-
+    public LocalTime getTime(String zone){
+        LocalTime timeNow = LocalTime.parse(LocalTime.now(ZoneId.of(zone)).format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        return timeNow;
     }
 }

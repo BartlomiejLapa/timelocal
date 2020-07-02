@@ -3,24 +3,7 @@
       xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
 <head>
     <title>What's the time!</title>
-    <script src="/webjars/jquery/3.5.1/jquery.js"></script>
-    <script src="/webjars/jquery-ui/1.12.0/jquery-ui.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $("#showTime").hide();
-            var mapValue = JSON.parse($("#time").text());
-            console.log("zoneTime" + mapValue);
 
-
-            $("#zoneName").change(function(e) {
-                var type = $("#zoneName").val();
-                console.log("zone changed to " + type);
-                document.getElementById("time").innerText=type;
-                $("#showTime").show();
-
-            });
-        });
-    </script>
 </head>
 
 <body>
@@ -30,20 +13,22 @@
         <h1>Change the zone:</h1>
 
         <div>
-            <select id="zoneName" th:field="*{mapZone}">
-                <option value="" selected="selected">N/A
-                <option th:each="entry : ${mapZone.entrySet()}"
-                        th:value="${entry.value}"
-                        th:utext="${entry.key}">
-                </option>
-            </select>
+            <form action="#" th:action="@{/}" th:object="${timeZone}" method="POST">
+                <select th:field="*{zoneName}" >
+
+                    <option value="" selected="selected">N/A
+                    <option th:each="zone : ${zone}"
+                            th:value="${zone}"
+                            th:utext="${zone}"
+
+>
+                    </option>
+                </select>
 
 
-            <div id="showTime">
-                <h1>Time in this zone:</h1>
-                <span id="time" class="time" th:text="${mapValue}" style="font-weight: bold;font-size:28px;"></span>
-            </div>
 
+                <div><button type="submit">Submit</button> </div>
+            </form>
         </div>
 
 
