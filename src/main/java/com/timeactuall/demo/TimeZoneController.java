@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -33,13 +30,35 @@ public class TimeZoneController {
     }
 
     @PostMapping("/")
-    public String checkData (TimeZone timeZone,Model model){
-        System.out.println(timeZone);
-        model.addAttribute("zoneName", timeZone.getZoneName());
-        model.addAttribute("zoneValue", new TimeZoneDao().getTime(timeZone.getZoneName()));
+    public String checkData (TimeZone timeZone){
+        String zoneName = timeZone.getZoneName();
+         return "redirect:/results?zoneName="+zoneName;
+    }
 
+    @GetMapping("/results")
+    public String showAll(@RequestParam String zoneName,TimeZone timeZone, Model model){
+        System.out.println("name:"+ zoneName);
+        model.addAttribute("zoneName", zoneName);
+        model.addAttribute("zoneValue", new TimeZoneDao().getTime(zoneName));
         return "results";
     }
+
+    /*
+    @PostMapping("/")
+    public String checkData (TimeZone timeZone){
+        String zoneName = timeZone.getZoneName();
+        return "redirect:/results/"+zoneName;
+    }
+
+    @GetMapping("/results/{zoneName}")
+    public String showAll(@PathVariable String zoneName,TimeZone timeZone, Model model){
+        System.out.println("name:"+ zoneName);
+        model.addAttribute("zoneName", timeZone.getZoneName());
+        model.addAttribute("zoneValue", new TimeZoneDao().getTime(timeZone.getZoneName()));
+        return "results";
+    }
+*/
+
 
 }
 
