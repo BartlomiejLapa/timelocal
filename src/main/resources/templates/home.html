@@ -13,7 +13,7 @@
         <h1>Change the zone:</h1>
 
         <div>
-            <form action="#" th:action="@{/}" th:object="${timeZone}" method="POST">
+            <form action="#" th:action="@{/results}" th:object="${timeZone}" method="GET">
                 <select th:field="*{zoneName}" >
 
                     <option value="" selected="selected">N/A

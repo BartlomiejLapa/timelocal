@@ -1,0 +1,36 @@
+.weather {
+    display: inline-flex;
+    width:50%;
+}
+.icon {
+    max-width: 100px;
+}
+.weather-description {
+    display: block;
+}
+.back {
+    border: 8px solid skyblue;
+    background: skyblue;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+}
+.main {
+    border:15px solid skyblue;
+    border-radius: 20px;
+    padding: 20px;
+    margin:0 auto;
+    max-width: 400px;
+    color:deepskyblue;
+
+}
+.button {
+    text-align: center;
+    margin-top: 20px;
+}
+.container {
+    display:  flex;
+}
+.zone {
+    width:50%;
+}
