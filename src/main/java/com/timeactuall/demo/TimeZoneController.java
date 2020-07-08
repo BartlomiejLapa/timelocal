@@ -8,9 +8,6 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
-
 @Controller
 @RequestMapping("/")
 public class TimeZoneController {
@@ -34,9 +31,8 @@ public class TimeZoneController {
     @GetMapping("/results")
     public String showTime(@RequestParam String zoneName, Model model) {
         WeatherDao weather;
-
+    try {
         try {
-
             if (zoneName.contains("/")) {
                 String city[] = zoneName.split("/");
                 weather = weatherService.getWeather(city[1]);
@@ -48,16 +44,21 @@ public class TimeZoneController {
             model.addAttribute("description", weather.getDescription());
             model.addAttribute("weatherMain", weather.getWeatherMain());
             model.addAttribute("icon", weather.getIcon());
-            model.addAttribute("zoneName", zoneName);
-            model.addAttribute("zoneValue", new TimeZoneDao().getTime(zoneName));
+
         } catch (Exception e) {
-            model.addAttribute("zoneName", "invalid zone, try again");
-        }
-        return "results";
+                model.addAttribute("temp", "weather for this zone is unavailable");
+            }
+
+        model.addAttribute("zoneName", zoneName);
+        model.addAttribute("zoneValue", new TimeZoneDao().getTime(zoneName));
+
+    } catch (Exception e){
+        model.addAttribute("zoneName", "invalid zone, try again");
     }
 
+    return "results";
 
-
+    }
 }
 
 
