@@ -35,9 +35,9 @@ public class TimeZoneController {
         try {
             if (zoneName.contains("/")) {
                 String city[] = zoneName.split("/");
-                weather = weatherService.getWeather(city[1]);
+                weather = weatherService.getWeather(city[city.length-1].replace("_"," "));
             } else {
-                weather = weatherService.getWeather(zoneName);
+                weather = weatherService.getWeather(zoneName.replace("_"," "));
             }
 
             model.addAttribute("temp", weather.getTemp());

@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
 <head>
     <title>What's the time!</title>
-
+    <link th:href="@{/style.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -14,7 +14,7 @@
 
         <div>
             <form action="#" th:action="@{/results}" th:object="${timeZone}" method="GET">
-                <select th:field="*{zoneName}" >
+                <select class="list" th:field="*{zoneName}" >
 
                     <option value="" selected="selected">N/A
                     <option th:each="zone : ${zone}"
@@ -27,7 +27,9 @@
 
 
 
-                <div><button type="submit">Submit</button> </div>
+                <div><br>
+                    <input class="back" value='Submit' type='submit'/>
+                </div>
             </form>
         </div>
 

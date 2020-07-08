@@ -17,5 +17,5 @@ public class WeatherDao {
     private String description;
     private String icon;
     private String city;
-//
+
 }

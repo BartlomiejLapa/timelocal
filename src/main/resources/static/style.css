@@ -15,6 +15,14 @@
     color: white;
     font-weight: bold;
 }
+
+.list {
+    border: 8px solid skyblue;
+    background: white;
+    border-radius: 20px;
+    color: deepskyblue;
+    font-weight: bold;
+}
 .main {
     border:15px solid skyblue;
     border-radius: 20px;

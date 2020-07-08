@@ -1,6 +1,7 @@
 package com.timeactuall.demo.weather;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URL;
@@ -9,12 +10,16 @@ import java.net.URL;
 public class WeatherService {
     private String apiKey = "be11474518c35898acf9afda66235cf8";
     private String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=";
-    private String temp;
-    private String main;
-    private String description;
-    private String icon;
+
+
+
 
     public WeatherDao getWeather(String city) {
+         String temp;
+         String main;
+         String description;
+         String icon;
+
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);;
         String serviceApi = apiUrl + city + "&units=metric&appid=" + apiKey;
         WeatherDao weatherDao = null;
@@ -29,6 +34,7 @@ public class WeatherService {
             weatherDao.setDescription(description);
             icon = weatherDao.getWeather().get(0).get("icon").asText();
             weatherDao.setIcon(icon);
+
 
         } catch (IOException e) {
             e.printStackTrace();
