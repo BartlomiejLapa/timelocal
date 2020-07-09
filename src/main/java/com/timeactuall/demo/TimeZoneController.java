@@ -8,10 +8,19 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
+
 @Controller
 @RequestMapping("/")
 public class TimeZoneController {
-
+    Cookie cookieZoneName;
+    Cookie cookieZoneValue;
+    Cookie cookieTemp;
+    Cookie cookieDescription;
+    Cookie cookieWeatherMain;
+    Cookie cookieIcon;
     private WeatherService weatherService;
 
     @Autowired
@@ -21,6 +30,17 @@ public class TimeZoneController {
 
     @GetMapping
     public String showTimeZone(Model model) {
+        try {
+            model.addAttribute("cookieZoneName", cookieZoneName.getValue());
+            model.addAttribute("cookieZoneValue", cookieZoneValue.getValue());
+            model.addAttribute("cookieTemp", cookieTemp.getValue());
+            model.addAttribute("cookieDescription", cookieDescription.getValue());
+            model.addAttribute("cookieWeatherMain", cookieWeatherMain.getValue());
+            model.addAttribute("cookieIcon", cookieIcon.getValue());
+            model.addAttribute("isVisible", true);
+        } catch (Exception e) {
+            model.addAttribute("isVisible", false);
+        }
 
         model.addAttribute("timeZone", new TimeZone());
         model.addAttribute("zone", new TimeZoneDao().getZone());
@@ -45,15 +65,30 @@ public class TimeZoneController {
             model.addAttribute("weatherMain", weather.getWeatherMain());
             model.addAttribute("icon", weather.getIcon());
 
+            cookieTemp = new Cookie("cookieTemp", weather.getTemp());
+            cookieDescription = new Cookie("cookieDescription", weather.getDescription());
+            cookieWeatherMain = new Cookie("cookieWeatherMain", weather.getWeatherMain());
+            cookieIcon = new Cookie("cookieIcon", weather.getIcon());
+
         } catch (Exception e) {
                 model.addAttribute("temp", "weather for this zone is unavailable");
+                cookieTemp = null;
+                cookieDescription = null;
+                cookieWeatherMain = null;
+                cookieIcon = null;
+            System.out.println("ads");
             }
+
+        cookieZoneName = new Cookie("cookieZoneName", zoneName);
+        cookieZoneValue = new Cookie("cookieZoneValue", new TimeZoneDao().getTime(zoneName).toString());
 
         model.addAttribute("zoneName", zoneName);
         model.addAttribute("zoneValue", new TimeZoneDao().getTime(zoneName));
 
     } catch (Exception e){
         model.addAttribute("zoneName", "invalid zone, try again");
+        cookieZoneName = null;
+        cookieZoneValue = null;
     }
 
     return "results";

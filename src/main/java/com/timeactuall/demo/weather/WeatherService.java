@@ -26,7 +26,7 @@ public class WeatherService {
         try {
             weatherDao = objectMapper.readValue(new URL(serviceApi).openStream(), WeatherDao.class);
 
-            temp = weatherDao.getMain().get("temp").asText() + "°C";
+            temp = weatherDao.getMain().get("temp").asText();
             weatherDao.setTemp(temp);
             main = weatherDao.getWeather().get(0).get("main").asText();
             weatherDao.setWeatherMain(main);
