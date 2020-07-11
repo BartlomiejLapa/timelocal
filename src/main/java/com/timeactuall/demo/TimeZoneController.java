@@ -15,12 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/")
 public class TimeZoneController {
-    Cookie cookieZoneName;
-    Cookie cookieZoneValue;
-    Cookie cookieTemp;
-    Cookie cookieDescription;
-    Cookie cookieWeatherMain;
-    Cookie cookieIcon;
     private WeatherService weatherService;
 
     @Autowired
@@ -28,16 +22,23 @@ public class TimeZoneController {
         this.weatherService = weatherService;
     }
 
-    @GetMapping
-    public String showTimeZone(Model model) {
+    @GetMapping("/")
+    public String showTimeZone(@CookieValue(name="zoneName", defaultValue = "0") String cookie, Model model) {
         try {
-            model.addAttribute("cookieZoneName", cookieZoneName.getValue());
-            model.addAttribute("cookieZoneValue", cookieZoneValue.getValue());
-            model.addAttribute("cookieTemp", cookieTemp.getValue());
-            model.addAttribute("cookieDescription", cookieDescription.getValue());
-            model.addAttribute("cookieWeatherMain", cookieWeatherMain.getValue());
-            model.addAttribute("cookieIcon", cookieIcon.getValue());
-            model.addAttribute("isVisible", true);
+            System.out.println(cookie);
+            if (cookie.equals("0")) {
+                model.addAttribute("isVisible", false);
+            } else {
+
+                try {
+                    getWeatherService(cookie, model);
+                } catch (Exception e) {
+                    model.addAttribute("temp", "weather for this zone is unavailable");
+                }
+                model.addAttribute("cookieZoneName", cookie);
+                model.addAttribute("zoneValue", new TimeZoneDao().getTime(cookie));
+                model.addAttribute("isVisible", true);
+            }
         } catch (Exception e) {
             model.addAttribute("isVisible", false);
         }
@@ -49,50 +50,41 @@ public class TimeZoneController {
     }
 
     @GetMapping("/results")
-    public String showTime(@RequestParam String zoneName, Model model) {
-        WeatherDao weather;
+    public String showTime(@RequestParam String zoneName, Model model, HttpServletResponse response) {
     try {
         try {
-            if (zoneName.contains("/")) {
-                String city[] = zoneName.split("/");
-                weather = weatherService.getWeather(city[city.length-1].replace("_"," "));
-            } else {
-                weather = weatherService.getWeather(zoneName.replace("_"," "));
-            }
-
-            model.addAttribute("temp", weather.getTemp());
-            model.addAttribute("description", weather.getDescription());
-            model.addAttribute("weatherMain", weather.getWeatherMain());
-            model.addAttribute("icon", weather.getIcon());
-
-            cookieTemp = new Cookie("cookieTemp", weather.getTemp());
-            cookieDescription = new Cookie("cookieDescription", weather.getDescription());
-            cookieWeatherMain = new Cookie("cookieWeatherMain", weather.getWeatherMain());
-            cookieIcon = new Cookie("cookieIcon", weather.getIcon());
+            getWeatherService(zoneName, model);
 
         } catch (Exception e) {
                 model.addAttribute("temp", "weather for this zone is unavailable");
-                cookieTemp = null;
-                cookieDescription = null;
-                cookieWeatherMain = null;
-                cookieIcon = null;
-            System.out.println("ads");
-            }
-
-        cookieZoneName = new Cookie("cookieZoneName", zoneName);
-        cookieZoneValue = new Cookie("cookieZoneValue", new TimeZoneDao().getTime(zoneName).toString());
+        }
 
         model.addAttribute("zoneName", zoneName);
         model.addAttribute("zoneValue", new TimeZoneDao().getTime(zoneName));
 
+        Cookie cookie = new Cookie("zoneName", zoneName);
+        response.addCookie(cookie);
+
     } catch (Exception e){
         model.addAttribute("zoneName", "invalid zone, try again");
-        cookieZoneName = null;
-        cookieZoneValue = null;
     }
 
     return "results";
 
+    }
+
+    private void getWeatherService(@RequestParam String zoneName, Model model) {
+        WeatherDao weather;
+        if (zoneName.contains("/")) {
+            String city[] = zoneName.split("/");
+            weather = weatherService.getWeather(city[city.length-1].replace("_"," "));
+        } else {
+            weather = weatherService.getWeather(zoneName.replace("_"," "));
+        }
+        model.addAttribute("temp", weather.getTemp());
+        model.addAttribute("description", weather.getDescription());
+        model.addAttribute("weatherMain", weather.getWeatherMain());
+        model.addAttribute("icon", weather.getIcon());
     }
 }
 

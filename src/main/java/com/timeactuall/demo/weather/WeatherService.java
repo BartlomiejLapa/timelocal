@@ -2,17 +2,26 @@ package com.timeactuall.demo.weather;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URL;
 
 @Service
+@Component
 public class WeatherService {
-    private String apiKey = "be11474518c35898acf9afda66235cf8";
-    private String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=";
 
+    @Value("${apiKey}")
+    private String apiKey;
 
+    @Value("${apiUrl}")
+    private String apiUrl;
 
+    @Autowired
+    private Environment env;
 
     public WeatherDao getWeather(String city) {
          String temp;
@@ -39,7 +48,6 @@ public class WeatherService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return weatherDao;
     }
 }
