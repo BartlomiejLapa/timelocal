@@ -20,7 +20,8 @@ public class WeatherService {
    @Value("${API_URL}")
     String apiUrl;
 
-    Dotenv dotenv = Dotenv.load();
+    Dotenv dotenv = Dotenv.configure()
+            .ignoreIfMissing().load();
     String apiKey = dotenv.get("API_KEY");
 
     public WeatherDao getWeather(String city)  {
