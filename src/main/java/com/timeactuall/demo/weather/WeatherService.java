@@ -1,6 +1,7 @@
 package com.timeactuall.demo.weather;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -8,14 +9,12 @@ import java.io.IOException;
 import java.net.URL;
 
 @Service
-@Component
 public class WeatherService {
 
-    @Value("${apiKey}")
-    private String apiKey;
+    Dotenv dotenv = Dotenv.load();
 
-    @Value("${apiUrl}")
-    private String apiUrl;
+    private String apiKey = dotenv.get("API_KEY");
+    private String apiUrl = dotenv.get("API_URL");
 
     public WeatherDao getWeather(String city) {
          String temp;

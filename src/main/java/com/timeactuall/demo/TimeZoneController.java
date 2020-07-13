@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +26,6 @@ public class TimeZoneController {
     @GetMapping("/")
     public String showTimeZone(@CookieValue(name="zoneName", defaultValue = "0") String cookie, Model model) {
         try {
-            System.out.println(cookie);
             if (cookie.equals("0")) {
                 model.addAttribute("isVisible", false);
             } else {
@@ -49,8 +49,17 @@ public class TimeZoneController {
 
     }
 
+    @GetMapping("/cookie")
+    public String next(String zoneName, HttpServletResponse response, RedirectAttributes redirectAttributes){
+        Cookie cookie = new Cookie("zoneName", zoneName);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        redirectAttributes.addAttribute("zoneName", zoneName);
+        return "redirect:/results";
+    }
+
     @GetMapping("/results")
-    public String showTime(@RequestParam String zoneName, Model model, HttpServletResponse response) {
+    public String showTime(@RequestParam String zoneName, Model model) {
     try {
         try {
             getWeatherService(zoneName, model);
@@ -58,12 +67,8 @@ public class TimeZoneController {
         } catch (Exception e) {
                 model.addAttribute("temp", "weather for this zone is unavailable");
         }
-
         model.addAttribute("zoneName", zoneName);
         model.addAttribute("zoneValue", new TimeZoneDao().getTime(zoneName));
-
-        Cookie cookie = new Cookie("zoneName", zoneName);
-        response.addCookie(cookie);
 
     } catch (Exception e){
         model.addAttribute("zoneName", "invalid zone, try again");
