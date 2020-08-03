@@ -3,12 +3,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
+@Table(name="role")
 @Data
 @NoArgsConstructor
 public class Role {
@@ -18,7 +18,10 @@ public class Role {
     private Long id;
     private String name;
 
-    public Role(String name) {
-        this.name = name;
-    }
+    @ManyToMany(mappedBy = "roles")
+    private Collection<User> users;
+//
+//    public Role(String name) {
+//        this.name = name;
+//    }
 }
