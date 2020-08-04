@@ -33,12 +33,14 @@
         <div class="col-md-6 col-md-offset-3">
 
             <h1>Registration</h1>
-            <form action="#" th:action="@{/register}" th:object="${user}" method="POST">
+            <form action="#" th:action="@{/registration}" th:object="${user}" method="POST">
                 <input type="text" th:field="*{username}" class="form-control" id="username"
                        placeholder="username" required autofocus>
                 <input type="text" th:field="*{email}" class="form-control" id="email"
                        placeholder="your@email.com" required autofocus>
                 <input type="password" th:field="*{password}" class="form-control" id="password"
+                       placeholder="Password" required>
+                <input type="password" th:field="*{passwordConfirm}" class="form-control" id="passwordConfirm"
                        placeholder="Password" required>
 
 

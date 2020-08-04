@@ -1,11 +1,8 @@
 package com.timeactuall.demo.security.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
-
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name="role")
@@ -19,9 +16,5 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<User> users;
-//
-//    public Role(String name) {
-//        this.name = name;
-//    }
+    private Set <User> users;
 }
