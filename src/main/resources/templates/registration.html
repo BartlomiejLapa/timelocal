@@ -2,57 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-
     <title>Registration</title>
+    <link th:href="@{/style.css}" rel="stylesheet"/>
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span> <span
-                    class="icon-bar"></span> <span class="icon-bar"></span> <span
-                    class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#" th:href="@{/}">Registration and
-                Login Module</a>
-        </div>
-    </div>
-</nav>
+<body>
 
-<br>
-<br>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-
+    <div class="main">
+        <div class="center">
             <h1>Registration</h1>
             <form action="#" th:action="@{/registration}" th:object="${user}" method="POST">
                 <input type="text" th:field="*{username}" class="form-control" id="username"
-                       placeholder="username" required autofocus>
-                <input type="text" th:field="*{email}" class="form-control" id="email"
-                       placeholder="your@email.com" required autofocus>
+                       placeholder="Username" required autofocus>
+                <span th:if="${#fields.hasErrors('username')}"
+                      th:errors="*{username}">Name Error</span>
                 <input type="password" th:field="*{password}" class="form-control" id="password"
                        placeholder="Password" required>
                 <input type="password" th:field="*{passwordConfirm}" class="form-control" id="passwordConfirm"
-                       placeholder="Password" required>
-
-
-
+                       placeholder="Confirm password" required>
 
                 <div><br>
                     <input class="back" value='Submit' type='submit'/>
                 </div>
             </form>
+            <form action="#" th:action="@{/login}">
+                <input class="back login-page" value='Sign In' type='submit'/>
+            </form><h2>test</h2>
+            <p class="error" th:if="${#fields.hasGlobalErrors()}" th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error
+            </p>
         </div>
     </div>
-</div>
-
 </body>
 </html>

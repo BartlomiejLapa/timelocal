@@ -8,24 +8,29 @@
 
 <body>
 
-    <div style="border:15px solid skyblue;border-radius: 20px;padding: 50px; margin:0 auto; max-width: 400px;color:deepskyblue;">
+    <div class="main">
+        <div class="center">
 
-        <div th:if="${param.error}">
-            Invalid username and password.
+
+            <h1>Login Page</h1>
+            <form th:action="@{/login}" method="post">
+                <div><label> User Name : <input type="text" name="username" class="form-control"> </label></div>
+                <div><label> Password: <input type="password" name="password" class="form-control"> </label></div>
+                <div><br>
+                    <input class="back" value='Sign In' type='submit'/>
+                </div>
+            </form>
+            <form action="#" th:action="@{/registration}">
+                <input class="back login-page" value='Sign Up' type='submit'/>
+            </form>
+            <div th:if="${param.logout}">
+                You have been logged out.
+            </div>
+            <div th:if="${param.error}" class="error">
+                Invalid username or password.
+            </div>
+
         </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div>
-        <form th:action="@{/login}" method="post">
-            <div><label> User Name : <input type="text" name="username"/> </label></div>
-            <div><label> Password: <input type="password" name="password"/> </label></div>
-            <div><input type="submit" value="Sign In"/></div>
-        </form>
-
-
-
-
     </div>
-
 </body>
 </html>

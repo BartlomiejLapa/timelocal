@@ -49,6 +49,11 @@ public class TimeZoneController {
 
     }
 
+    @GetMapping("home")
+    public String redirect(){
+        return "redirect:/";
+    }
+
     @GetMapping("/cookie")
     public String next(String zoneName, HttpServletResponse response, RedirectAttributes redirectAttributes){
         Cookie cookie = new Cookie("zoneName", zoneName);

@@ -42,3 +42,31 @@
 .zone {
     width:50%;
 }
+.form-control {
+    display: block;
+    margin-bottom: 10px;
+    border: 4px solid skyblue;
+    background: white;
+    border-radius: 20px;
+    color: skyblue;
+    font-weight: bold;
+    padding: 4px;
+    padding-left: 4px;
+    padding-left: 5px;
+}
+.center {
+    display: grid;
+    justify-content: center;
+}
+.bottom-panel {
+    text-align: center;
+    display: block ruby;
+}
+.error {
+    color: red;
+}
+.login-page {
+    margin-top: -32px;
+    margin-left: 100px;
+    display: block ruby;
+}

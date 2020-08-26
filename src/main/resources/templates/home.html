@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+      xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>What's the time!</title>
     <link th:href="@{/style.css}" rel="stylesheet"/>
@@ -8,7 +9,7 @@
 
 <body>
 
-    <div style="border:15px solid skyblue;border-radius: 20px;padding: 50px; margin:0 auto; max-width: 400px;color:deepskyblue;">
+    <div class="main center">
 
         <h1>Change the zone:</h1>
 
@@ -22,13 +23,11 @@
                             th:utext="${zone}">
                     </option>
                 </select>
-
-
-
                 <div><br>
                     <input class="back" value='Submit' type='submit'/>
                 </div>
             </form>
+
             <div class="container" th:style="${isVisible} ? 'display:flex' : 'display:none'">
                 <div class="zone">
                     <h2>Last Zone:</h2>
@@ -47,13 +46,21 @@
 
                     </div>
                 </div>
-        </div>
+            </div>
+       </div>
+    </div><br>
+    <div class="main bottom-panel">
+        <span sec:authentication="principal.username">User</span>
+        <ul class="nav navbar-nav">
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+        </ul>
 
-        </div>
-
-
-
-
+        <form action="#" th:action="@{/registration}">
+            <input class="back" value='Sign Up' type='submit'/>
+        </form>
+        <form action="#" th:action="@{/login}">
+            <input class="back" value='Sign In' type='submit'/>
+        </form>
     </div>
 
 </body>
